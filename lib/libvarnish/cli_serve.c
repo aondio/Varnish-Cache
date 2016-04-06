@@ -115,6 +115,29 @@ VCLS_func_ping(struct cli *cli, const char * const *av, void *priv)
 /*--------------------------------------------------------------------*/
 
 void
+VCLS_func_ping_json(struct cli *cli, const char * const *av, void *priv)
+{
+	time_t t;
+
+	(void)priv;
+	(void)av;
+	t = time(NULL);
+	if (priv == NULL)
+		VCLI_JSON_ver(cli, 1, av);
+
+	VCLI_Out(cli, ",\n  {");
+	VCLI_Out(cli, "\n  \"pong\": \"PONG\"");
+	VCLI_Out(cli, "\n  \"time\": \"%jd\"", (intmax_t)t);
+	VCLI_Out(cli, "\n  \"version\": \"1.0\"");
+	VCLI_Out(cli, "\n  }");
+
+	if (priv == NULL)
+               VCLI_Out(cli, "\n]\n");
+}
+
+/*--------------------------------------------------------------------*/
+
+void
 VCLS_func_help(struct cli *cli, const char * const *av, void *priv)
 {
 	struct cli_proto *cp;

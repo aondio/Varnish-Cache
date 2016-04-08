@@ -102,6 +102,20 @@ VCLS_func_close(struct cli *cli, const char *const *av, void *priv)
 /*--------------------------------------------------------------------*/
 
 void
+VCLS_func_close_json(struct cli *cli, const char *const *av, void *priv)
+{
+
+	(void)av;
+	(void)priv;
+	VCLI_Out(cli, "\n  {");
+	VCLI_Out(cli, "\n  \"reason\": \"Closing CLI connection\"");
+	VCLI_Out(cli, "\n  }");
+	VCLI_SetResult(cli, CLIS_CLOSE);
+}
+
+/*--------------------------------------------------------------------*/
+
+void
 VCLS_func_ping(struct cli *cli, const char * const *av, void *priv)
 {
 	time_t t;

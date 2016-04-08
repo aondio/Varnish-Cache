@@ -313,7 +313,7 @@ static struct cli_proto cli_auth[] = {
 	{ CLI_HELP,		"", VCLS_func_help, VCLS_func_help_json },
 	{ CLI_PING,		"", VCLS_func_ping, VCLS_func_ping_json },
 	{ CLI_AUTH,		"", mcf_auth },
-	{ CLI_QUIT,		"", VCLS_func_close },
+	{ CLI_QUIT,		"", VCLS_func_close, VCLS_func_close_json },
 	{ NULL }
 };
 

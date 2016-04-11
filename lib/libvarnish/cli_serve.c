@@ -107,9 +107,13 @@ VCLS_func_close_json(struct cli *cli, const char *const *av, void *priv)
 
 	(void)av;
 	(void)priv;
+	if (priv == NULL)
+		VCLI_JSON_ver(cli, 1, av);
 	VCLI_Out(cli, "\n  {");
-	VCLI_Out(cli, "\n  \"reason\": \"Closing CLI connection\"");
+	VCLI_Out(cli, "\n  \"close\": \"Closing CLI connection\"");
 	VCLI_Out(cli, "\n  }");
+	if (priv == NULL)
+               VCLI_Out(cli, "\n]\n");
 	VCLI_SetResult(cli, CLIS_CLOSE);
 }
 
@@ -140,9 +144,9 @@ VCLS_func_ping_json(struct cli *cli, const char * const *av, void *priv)
 		VCLI_JSON_ver(cli, 1, av);
 
 	VCLI_Out(cli, ",\n  {");
-	VCLI_Out(cli, "\n  \"pong\": \"PONG\"");
-	VCLI_Out(cli, "\n  \"time\": \"%jd\"", (intmax_t)t);
-	VCLI_Out(cli, "\n  \"version\": \"1.0\"");
+	VCLI_Out(cli, "\n  \"pong\": \"PONG\",");
+	VCLI_Out(cli, "\n  \"time\": %jd,", (intmax_t)t);
+	VCLI_Out(cli, "\n  \"version\": 1.0");
 	VCLI_Out(cli, "\n  }");
 
 	if (priv == NULL)

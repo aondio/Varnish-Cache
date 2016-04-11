@@ -84,13 +84,36 @@ mcf_banner(struct cli *cli, const char *const *av, void *priv)
 		VCLI_Out(cli, "Type 'start' to launch worker process.\n");
 	VCLI_SetResult(cli, CLIS_OK);
 }
+/*--------------------------------------------------------------------*/
 
+static void
+mcf_banner_json(struct cli *cli, const char *const *av, void *priv)
+{
+
+	(void)av;
+	(void)priv;
+	VCLI_JSON_ver(cli, 1, av);
+	VCLI_Out(cli, ",\n {");
+	VCLI_Out(cli, "\n \"platform\": ");
+	VCLI_JSON_str(cli, VSB_data(vident) + 1);
+	VCLI_Out(cli, ",\n \"vcs_version\": ");
+	VCLI_JSON_str(cli, VCS_version);
+	VCLI_Out(cli, "\n }");
+	VCLI_Out(cli, "\n]\n");
+
+	// Not implementing Json for those lines.
+/*	VCLI_Out(cli, "Type 'help' for command list.\n");
+	VCLI_Out(cli, "Type 'quit' to close CLI session.\n");
+	if (child_pid < 0)
+	VCLI_Out(cli, "Type 'start' to launch worker process.\n");*/
+	VCLI_SetResult(cli, CLIS_OK);
+}
 /*--------------------------------------------------------------------*/
 
 /* XXX: what order should this list be in ? */
 static struct cli_proto cli_proto[] = {
-	{ CLI_BANNER,		"", mcf_banner },
-	{ CLI_SERVER_STATUS,	"", mcf_server_status },
+	{ CLI_BANNER,		"", mcf_banner, mcf_banner_json },
+	{ CLI_SERVER_STATUS,	"", mcf_server_status, mcf_server_status_json },
 	{ CLI_SERVER_START,	"", mcf_server_start },
 	{ CLI_SERVER_STOP,	"", mcf_server_stop },
 	{ CLI_VCL_LOAD,		"", mcf_vcl_load },

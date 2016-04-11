@@ -661,6 +661,21 @@ mcf_server_status(struct cli *cli, const char * const *av, void *priv)
 
 /*--------------------------------------------------------------------*/
 
+void
+mcf_server_status_json(struct cli *cli, const char * const *av, void *priv)
+{
+	(void)av;
+	(void)priv;
+	if (priv == NULL)
+		VCLI_JSON_ver(cli, 1, av);
+	VCLI_Out(cli, ",\n  {");
+	VCLI_Out(cli, "\n  \"child_status\": \"%s\"", ch_state[child_state]);
+	VCLI_Out(cli, "\n  }");
+	if (priv == NULL)
+               VCLI_Out(cli, "\n]\n");
+}
+/*--------------------------------------------------------------------*/
+
 static int __match_proto__(vev_cb_f)
 mgt_sigint(const struct vev *e, int what)
 {
